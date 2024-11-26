@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Order_Detail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class OrderController extends Controller
@@ -15,7 +16,12 @@ class OrderController extends Controller
     }
     public function get_orders($order_id)
     {
+        if(!Auth::guard("sanctum")->check())
+        {
+            return "you are badman!";
+        }
         $order = Order::where("order_id", $order_id)->firstOrFail();
+    if($order->user_id != auth()->guard("sanctum")->user()->user_id) return response()->json(["message" => "siktir"]);
         echo $order;
         echo"<br />";
         echo $order->customer()->first()->name;
@@ -40,7 +46,7 @@ class OrderController extends Controller
         $order = new Order;
         $order->create([
             "order_id" => Str::random(16),
-            "user_id" => "JI95lo6Deoua6Ohv",
+            "user_id" => "RLdS1thW19u9fqwn",
             "total_price" => 0,
             "status" => "not_payed",
         ]);

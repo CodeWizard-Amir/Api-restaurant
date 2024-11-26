@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FoodController;
+use App\Http\Controllers\Logincontroller;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
@@ -34,11 +35,13 @@ Route::get("/menus" , [MenuController::class, "get_all_menu"]);
 Route::get("/food/create" , [FoodController::class, "create"]);
 // Orders=================================================================================
 Route::get("order/create", [OrderController::class , "create"]);
-Route::get("order/{order_id}", [OrderController::class , "get_orders"]);
+Route::middleware("Authenticator")->get("order/{order_id}", [OrderController::class , "get_orders"]);
 Route::get("order_detail/create", [OrderDetailController::class , "create"]);
 // ============================================================================================
 Route::get("/create/reservation", [ReservationController:: class , "create"]);
 Route::get("/reservation/{user_id}", [ReservationController:: class , "get_user_reservations"]);
+// ///////////////////////////////////////////////////////// // // // // // // //////////////////////////////////////////
+Route::get("login" , [Logincontroller::class, "login"]);
 
 
 
